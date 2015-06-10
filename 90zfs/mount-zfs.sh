@@ -15,7 +15,12 @@ fi
 # Delay until all required block devices are present.
 udevadm settle
 
+ulimit -l unlimited
+ulimit -s unlimited
+ulimit -v unlimited
+
 modprobe fuse
+
 zfs-fuse --pidfile /var/run/zfs/zfs-fuse.pid
 
 case "$root" in
@@ -76,6 +81,7 @@ case "$root" in
 		zfs set mountpoint="$NEWROOT" "$zfsbootfs" && ROOTFS_MOUNTED=yes
 		mkdir -p "$NEWROOT"/var/run/zfs
 		mount --bind /dev		"$NEWROOT"/dev
+		mount --bind /proc		"$NEWROOT"/proc
 		mount --bind /var/run/zfs	"$NEWROOT"/var/run/zfs
 
 		need_shutdown
