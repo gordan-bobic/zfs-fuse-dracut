@@ -19,9 +19,7 @@ ulimit -l unlimited
 ulimit -s unlimited
 ulimit -v unlimited
 
-modprobe fuse
-
-zfs-fuse --pidfile /var/run/zfs/zfs-fuse.pid
+/sbin/zfs-fuse --pidfile /var/run/zfs/zfs-fuse.pid
 
 case "$root" in
 	zfs:*)
