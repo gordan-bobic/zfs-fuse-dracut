@@ -15,12 +15,6 @@ fi
 # Delay until all required block devices are present.
 udevadm settle
 
-ulimit -l unlimited
-ulimit -s unlimited
-ulimit -v unlimited
-
-/sbin/zfs-fuse --pidfile /var/run/zfs/zfs-fuse.pid
-
 case "$root" in
 	zfs:*)
 		# We have ZFS modules loaded, so we're able to import pools now.
@@ -80,6 +74,7 @@ case "$root" in
 		mkdir -p "$NEWROOT"/var/run/zfs
 		mount --bind /dev		"$NEWROOT"/dev
 		mount --bind /proc		"$NEWROOT"/proc
+		mount --bind /sys		"$NEWROOT"/sys
 		mount --bind /var/run/zfs	"$NEWROOT"/var/run/zfs
 
 		need_shutdown

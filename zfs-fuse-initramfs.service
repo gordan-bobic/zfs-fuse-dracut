@@ -1,0 +1,22 @@
+[Unit]
+Description=zfs-fuse initramfs daemon
+After=basic.target systemd-modules-load.service dracut-pre-mount.service
+Before=dracut-mount.service
+ConditionPathExists=/etc/initrd-release
+Requires=basic.target
+
+[Service]
+Type=simple
+LimitMEMLOCK=infinity
+LimitSTACK=infinity
+LimitAS=infinity
+ExecStart=/sbin/zfs-fuse --no-daemon --pidfile /var/run/zfs/zfs-fuse.pid
+PIDFile=/var/run/zfs-fuse.pid
+SuccessExitStatus=1
+KillMode=none
+KillSignal=SIGCONT
+SendSIGHUP=no
+SendSIGKILL=no
+
+[Install]
+WantedBy=initrd.target
