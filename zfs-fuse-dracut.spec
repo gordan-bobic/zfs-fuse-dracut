@@ -25,7 +25,7 @@ cp -a 99zfs %{buildroot}%{_libdir}/dracut/modules.d/
 
 %files
 %defattr(-,root,root)
-%{_libdir}/dracut/modules.d/90zfs/*
+%{_libdir}/dracut/modules.d/99zfs/*
 
 
 %changelog
