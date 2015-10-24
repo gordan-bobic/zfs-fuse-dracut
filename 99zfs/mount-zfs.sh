@@ -69,7 +69,13 @@ case "$root" in
 		fi
 
 		# Above should have left our rpool imported and pool/dataset in $root.
-		mount -t zfs "$zfsbootfs" "$NEWROOT" && ROOTFS_MOUNTED=yes
+		mountpoint=`zfs get -H -o value mountpoint "$zfsbootfs"`
+		if [ "$mountpoint" = "legacy" ] ; then
+			mount -t zfs "$zfsbootfs" "$NEWROOT" && ROOTFS_MOUNTED=yes
+		else
+			zfs set mountpoint="$NEWROOT" "$zfsbootfs" && ROOTFS_MOUNTED=yes
+		fi
+
 		mkdir -p "$NEWROOT"/var/run/zfs
 		mount --bind /dev		"$NEWROOT"/dev
 		mount --bind /proc		"$NEWROOT"/proc
