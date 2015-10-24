@@ -69,8 +69,7 @@ case "$root" in
 		fi
 
 		# Above should have left our rpool imported and pool/dataset in $root.
-		# zfs-fuse doesn't support legacy mounts too well. :(
-		zfs set mountpoint="$NEWROOT" "$zfsbootfs" && ROOTFS_MOUNTED=yes
+		mount -t zfs "$zfsbootfs" "$NEWROOT" && ROOTFS_MOUNTED=yes
 		mkdir -p "$NEWROOT"/var/run/zfs
 		mount --bind /dev		"$NEWROOT"/dev
 		mount --bind /proc		"$NEWROOT"/proc

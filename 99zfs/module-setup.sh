@@ -17,6 +17,7 @@ installkernel() {
 }
 
 install() {
+	dracut_install /sbin/mount.zfs
 	dracut_install /sbin/zfs-fuse
 	dracut_install /sbin/zfs
 	dracut_install /sbin/zpool
@@ -38,6 +39,9 @@ install() {
 	if [ -e /etc/zfs/zfsrc ]; then
 		inst /etc/zfs/zfsrc
 	fi
+
+	inst_simple "$moddir/zfs-fuse-initramfs.service" "$systemdsystemunitdir/zfs-fuse-initramfs.service"
+	ln_r "$systemdsystemunitdir/zfs-fuse-initramfs.service" "$systemdsystemunitdir/initrd.target.wants/zfs-fuse-initramfs.service"
 
 	# Synchronize initramfs and system hostid
 	AA=`hostid | cut -b 1,2`
